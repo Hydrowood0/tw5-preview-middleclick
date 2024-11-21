@@ -141,6 +141,21 @@ Enhances the link widget for on-hover previews
 			$tw.utils.addClass(el, "tc-popup-handle");
 			// Add absolute positioning class
 			$tw.utils.addClass(el, "tc-popup-absolute");
+	
+			// Unified event handler for mouseover, mouseout and mousedown
+			el.addEventListener("mousedown", function (event) {
+				// Ref to event
+				var ev = event || window.event;
+	
+				// Check for middle click
+				if (ev.button === 1 && wiki.getTextReference("$:/plugins/tobibeer/preview/config/middleclickpreview", "enable") === "enable") {
+					// Prevent default middle click behavior
+					ev.preventDefault();
+					// Show preview popup immediately
+					showPopup(self, el);
+				}
+			});
+	
 			// Loop new event handlers
 			["mouseover", "mouseout"].forEach(function (e) {
 				// Create event listener
@@ -179,6 +194,12 @@ Enhances the link widget for on-hover previews
 						block = 0;
 						// No more waiting for the popup
 						clearTimeout(self.previewTimeout);
+						// close popup
+						// if next object to move mouse to is not a popup
+						if (!event.relatedTarget?.classList.contains("tc-preview-tiddler")) {
+							// then close popup
+							$tw.popup.cancel(Math.max(0, getInfo(el).popupLevel));
+						}
 					}
 				});
 			});
@@ -199,5 +220,4 @@ Enhances the link widget for on-hover previews
 			)
 		);
 	};
-
 })();

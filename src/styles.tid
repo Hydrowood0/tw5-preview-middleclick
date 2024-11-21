@@ -6,3 +6,9 @@ tags: $:/tags/Stylesheet
 	width:100%;
 	padding:1em;
 }
+
+.tc-popup.appear.appear-block.appear-reveal.tc-preview-tiddler.tc-popup-keep.tc-reveal {
+	word-break: normal;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+}
